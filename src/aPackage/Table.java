@@ -24,7 +24,7 @@ public class Table {
 	 */
 	@Override
 	public boolean equals(Object otherObject) throws NullPointerException {
-		// 1. Check that otherObject is a Table object
+		// Check that otherObject is a Table object
 		if (otherObject == null)
 			return false;
 		if (!(otherObject instanceof Table))
@@ -32,25 +32,28 @@ public class Table {
 		if (otherObject == this)
 			return true;
 		
+		// Cast it as a Table object
 		Table otherTable = (Table) otherObject;
 		
-		// 2. Check the tables' dimensions
-		// 3. Go through and compare each of the tables' values
+		// Check the tables' row dimensions
 		if (this.values.length != otherTable.values.length) {
 			return false;
 		}
+		
+		// Go through and compare each of the tables' values
 		for (int i = 0; i < this.values.length; i++) {
+			// Check column dimensions in each row
 			if (this.values[i].length != otherTable.values[i].length) {
 				return false;
 			}
+			// Check the individual column values within each row
 			for (int j = 0; j < this.values[i].length; j++) {
-				if (this.values[i][j] != otherTable.values[i][j]) {
+				if (this.values[i][j] != otherTable.values[i][j])
 					return false;
-				}
 			}
 		}
 		
-		// 4. In the event it passes all 3 checks, return true
+		// In the event it has passed every previous check, return true
 		return true;
 	}
 	
@@ -70,9 +73,8 @@ public class Table {
 		// set the smallest to that value instead
 		for (int i = 0; i < this.values.length; i++) {
 			for (int j = 0; j < this.values[i].length; j++) {
-				if (smallestNum > this.values[i][j]) {
+				if (smallestNum > this.values[i][j])
 					smallestNum = this.values[i][j];
-				}
 			}
 		}
 		
@@ -104,20 +106,25 @@ public class Table {
 		this.values[row][col] = number;
 	}
 	
-	// Helper method for visualizing the data we're working with
+	/**
+	 * Helper method for visualizing the data we're working with
+	 */
 	public void print() {
+		// Check to see if array is a 0 array
+		if (this.values == null || this.values.length == 0 || this.values[0].length == 0)
+			throw new IllegalStateException("Array has 0 dimensions");
+		
+		// Prints the array's contents in a JSON-like format
 		for (int i = 0; i < this.values.length; i++) {
 			System.out.print("{ ");
 			for (int j = 0; j < this.values[i].length; j++) {
 				System.out.print(this.values[i][j]);
-				if (j != this.values[i].length-1) {
+				if (j != this.values[i].length-1) 
 					System.out.print(", ");
-				}
 			}
 			System.out.print(" }");
-			if (i != this.values.length-1) {
+			if (i != this.values.length-1) 
 				System.out.print(",");
-			}
 			System.out.print("\n");
 		}
 		System.out.print("\n");
