@@ -23,9 +23,32 @@ public class Table {
 	 * 3) If this Table and the other Table have different values, not equal
 	 */
 	@Override
-	public boolean equals(Object otherObject) {
-		//TODO delete the return statement below and implement this method
-		return false;
+	public boolean equals(Object otherObject) throws NullPointerException {
+		// 1. Check that otherObject is a Table object
+		if (otherObject instanceof Table) {
+			return false;
+		}
+		
+		Table otherTable = (Table) otherObject;
+		
+		// 2. Check the tables' dimensions
+		// 3. Go through and compare each of the tables' values
+		if (this.values.length != otherTable.values.length) {
+			return false;
+		}
+		for (int i = 0; i < this.values.length; i++) {
+			if (this.values[i].length != otherTable.values[i].length) {
+				return false;
+			}
+			for (int j = 0; j < this.values[i].length; j++) {
+				if (this.values[i][j] != otherTable.values[i][j]) {
+					return false;
+				}
+			}
+		}
+		
+		// 4. In the event it passes all 3 checks, return true
+		return true;
 	}
 	
 	/**
@@ -33,8 +56,18 @@ public class Table {
 	 * @throws IllegalStateException if zero dimension(s)
 	 */
 	public int smallestValue() throws IllegalStateException{
-		//TODO delete return statement below and implement this method
-		return Integer.MIN_VALUE;
+		if (this.values == null || this.values.length == 0 || this.values[0].length == 0) {
+			throw new IllegalStateException("Array has 0 dimensions");
+		}
+		int smallestNum = this.values[0][0];
+		for (int i = 0; i < this.values.length; i++) {
+			for (int j = 0; j < this.values[i].length; j++) {
+				if (smallestNum > this.values[i][j]) {
+					smallestNum = this.values[i][j];
+				}
+			}
+		}
+		return smallestNum;
 	}
 	
 	/**
