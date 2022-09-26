@@ -25,9 +25,12 @@ public class Table {
 	@Override
 	public boolean equals(Object otherObject) throws NullPointerException {
 		// 1. Check that otherObject is a Table object
-		if (otherObject instanceof Table) {
+		if (otherObject == null)
 			return false;
-		}
+		if (!(otherObject instanceof Table))
+			return false;
+		if (otherObject == this)
+			return true;
 		
 		Table otherTable = (Table) otherObject;
 		
@@ -56,10 +59,15 @@ public class Table {
 	 * @throws IllegalStateException if zero dimension(s)
 	 */
 	public int smallestValue() throws IllegalStateException{
-		if (this.values == null || this.values.length == 0 || this.values[0].length == 0) {
+		// Checks to see if array has 0 dimensions
+		if (this.values == null || this.values.length == 0 || this.values[0].length == 0)
 			throw new IllegalStateException("Array has 0 dimensions");
-		}
+		
+		// Declare local variable to compare to the values in the table
 		int smallestNum = this.values[0][0];
+		
+		// Search through table, if value is smaller than the current smallest,
+		// set the smallest to that value instead
 		for (int i = 0; i < this.values.length; i++) {
 			for (int j = 0; j < this.values[i].length; j++) {
 				if (smallestNum > this.values[i][j]) {
@@ -67,6 +75,8 @@ public class Table {
 				}
 			}
 		}
+		
+		// Return the smallest value found
 		return smallestNum;
 	}
 	
@@ -78,8 +88,39 @@ public class Table {
 	 * @throws IllegalArgumentException if coordinates are not a valid location
 	 */
 	public void setValueAt(int number, int row, int col) throws IllegalArgumentException {
-		//TODO implement this method
+		// Check to see if array is a 0 array
+		if (this.values == null || this.values.length == 0 || this.values[0].length == 0)
+			throw new IllegalStateException("Array has 0 dimensions");
 		
+		// Check to see if row exists
+		if (row >= this.values.length || row < 0) 
+			throw new IllegalArgumentException("Row given does not exist.");
+		
+		// Check to see if column in that row exists
+		if (col >= this.values[row].length || col < 0) 
+			throw new IllegalArgumentException("Column given for that row does not exist.");
+		
+		// Set the value at the coordinates listed
+		this.values[row][col] = number;
+	}
+	
+	// Helper method for visualizing the data we're working with
+	public void print() {
+		for (int i = 0; i < this.values.length; i++) {
+			System.out.print("{ ");
+			for (int j = 0; j < this.values[i].length; j++) {
+				System.out.print(this.values[i][j]);
+				if (j != this.values[i].length-1) {
+					System.out.print(", ");
+				}
+			}
+			System.out.print(" }");
+			if (i != this.values.length-1) {
+				System.out.print(",");
+			}
+			System.out.print("\n");
+		}
+		System.out.print("\n");
 	}
 	
 	/**
